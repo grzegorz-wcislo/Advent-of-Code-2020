@@ -1,11 +1,11 @@
 defmodule Aoc.Day01 do
   def task1 do
-    {:ok, {e1, e2}} = sum2_to(2020, read_elements())
+    {:ok, [e1, e2]} = sum2_to(2020, read_elements())
     e1 * e2
   end
 
   def task2 do
-    {:ok, {e1, e2, e3}} = sum3_to(2020, read_elements())
+    {:ok, [e1, e2, e3]} = sum3_to(2020, read_elements())
     e1 * e2 * e3
   end
 
@@ -39,17 +39,20 @@ defmodule Aoc.Day01 do
     |> Enum.to_list()
   end
 
+  def to_result(nil), do: :error
+  def to_result(result), do: {:ok, result}
+
+  def sum_n_to(sum, elements, n) do
+    k_combinations(elements, n)
+    |> Enum.find(&(length(&1) == n && Enum.sum(&1) == sum))
+    |> to_result()
+  end
+
   def sum2_to(sum, elements) do
-    case Enum.find(k_combinations(elements, 2), fn [e1, e2] -> e1 + e2 == sum end) do
-      nil -> :error
-      result -> {:ok, result}
-    end
+    sum_n_to(sum, elements, 2)
   end
 
   def sum3_to(sum, elements) do
-    case Enum.find(k_combinations(elements, 3), fn [e1, e2, e3] -> e1 + e2 + e3 == sum end) do
-      nil -> :error
-      result -> {:ok, result}
-    end
+    sum_n_to(sum, elements, 3)
   end
 end
