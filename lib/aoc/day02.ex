@@ -39,7 +39,7 @@ defmodule Aoc.Day02 do
 
     matches = length(Regex.scan(char_regex, password, capture: :first))
 
-    matches >= min && matches <= max
+    matches >= min and matches <= max
   end
 
   def is_valid2?({{min, max, char}, password}) do

@@ -39,7 +39,7 @@ defmodule Aoc.Day01 do
 
   def sum_n_to(sum, elements, n) do
     k_combinations(elements, n)
-    |> Enum.find(&(length(&1) == n && Enum.sum(&1) == sum))
+    |> Enum.find(&(length(&1) == n and Enum.sum(&1) == sum))
     |> to_result()
   end
 

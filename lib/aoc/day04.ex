@@ -76,8 +76,8 @@ defmodule Aoc.Day04 do
 
         "hgt" ->
           case Integer.parse(value) do
-            {height, "cm"} -> height >= 150 && height <= 193
-            {height, "in"} -> height >= 59 && height <= 76
+            {height, "cm"} -> height >= 150 and height <= 193
+            {height, "in"} -> height >= 59 and height <= 76
             _ -> false
           end
 
@@ -98,7 +98,7 @@ defmodule Aoc.Day04 do
 
   defp in_range?(value, min, max) do
     case Integer.parse(value) do
-      {year, ""} -> year >= min && year <= max
+      {year, ""} -> year >= min and year <= max
       _ -> false
     end
   end
