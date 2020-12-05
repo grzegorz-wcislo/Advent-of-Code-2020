@@ -23,6 +23,47 @@ defmodule Aoc.Day04Test do
     end
   end
 
+  describe "&task2/1" do
+    test "example valid" do
+      input = [
+        "pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980",
+        "hcl:#623a2f",
+        "",
+        "eyr:2029 ecl:blu cid:129 byr:1989",
+        "iyr:2014 pid:896056539 hcl:#a97842 hgt:165cm",
+        "",
+        "hcl:#888785",
+        "hgt:164cm byr:2001 iyr:2015 cid:88",
+        "pid:545766238 ecl:hzl",
+        "eyr:2022",
+        "",
+        "iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719"
+      ]
+
+      assert 4 == Aoc.Day04.task2(input)
+    end
+
+    test "example invalid" do
+      input = [
+        "eyr:1972 cid:100",
+        "hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926",
+        "",
+        "iyr:2019",
+        "hcl:#602927 eyr:1967 hgt:170cm",
+        "ecl:grn pid:012533040 byr:1946",
+        "",
+        "hcl:dab227 iyr:2012",
+        "ecl:brn hgt:182cm pid:021572410 eyr:2020 byr:1992 cid:277",
+        "",
+        "hgt:59cm ecl:zzz",
+        "eyr:2038 hcl:74454a iyr:2023",
+        "pid:3556412378 byr:2007"
+      ]
+
+      assert 0 == Aoc.Day04.task2(input)
+    end
+  end
+
   describe "&join_nonempty/1" do
     test "given only breaks it joins them" do
       input = ["a", "bc", "d"]
@@ -63,6 +104,22 @@ defmodule Aoc.Day04Test do
     end
   end
 
+  describe "&extract_entries/1" do
+    test "given one password it extracts keys" do
+      input = "foo:bar  baz:abc lorem:ipsum"
+
+      assert %{"foo" => "bar", "baz" => "abc", "lorem" => "ipsum"} ==
+               Aoc.Day04.extract_entries(input)
+    end
+
+    test "given a list of passwords it extracts lists of keys" do
+      input = ["foo:bar  baz:abc lorem:ipsum", "a:b c:d"]
+
+      assert [%{"foo" => "bar", "baz" => "abc", "lorem" => "ipsum"}, %{"a" => "b", "c" => "d"}] ==
+               Aoc.Day04.extract_entries(input)
+    end
+  end
+
   describe "&contains_required_keys?/2" do
     test "given the same keys" do
       password_keys = ["a", "b", "c"]
@@ -83,6 +140,100 @@ defmodule Aoc.Day04Test do
       required_keys = ["a", "b", "c"]
 
       assert Aoc.Day04.contains_required_keys?(password_keys, required_keys)
+    end
+  end
+
+  describe "&contains_valid_values?/1" do
+    test "validates 'byr' field" do
+      assert Aoc.Day04.contains_valid_values?(%{"byr" => "1998"})
+      assert Aoc.Day04.contains_valid_values?(%{"byr" => "1920"})
+      assert Aoc.Day04.contains_valid_values?(%{"byr" => "2002"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"byr" => "1919"})
+      assert !Aoc.Day04.contains_valid_values?(%{"byr" => "2003"})
+      assert !Aoc.Day04.contains_valid_values?(%{"byr" => "1998a"})
+      assert !Aoc.Day04.contains_valid_values?(%{"byr" => "nineteen sixty five"})
+    end
+
+    test "validates 'iyr' field" do
+      assert Aoc.Day04.contains_valid_values?(%{"iyr" => "2015"})
+      assert Aoc.Day04.contains_valid_values?(%{"iyr" => "2010"})
+      assert Aoc.Day04.contains_valid_values?(%{"iyr" => "2020"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"iyr" => "2009"})
+      assert !Aoc.Day04.contains_valid_values?(%{"iyr" => "2021"})
+      assert !Aoc.Day04.contains_valid_values?(%{"iyr" => "2015b"})
+      assert !Aoc.Day04.contains_valid_values?(%{"iyr" => "two thousand sixteen"})
+    end
+
+    test "validates 'eyr' field" do
+      assert Aoc.Day04.contains_valid_values?(%{"eyr" => "2025"})
+      assert Aoc.Day04.contains_valid_values?(%{"eyr" => "2020"})
+      assert Aoc.Day04.contains_valid_values?(%{"eyr" => "2030"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"eyr" => "2019"})
+      assert !Aoc.Day04.contains_valid_values?(%{"eyr" => "2031"})
+      assert !Aoc.Day04.contains_valid_values?(%{"eyr" => "2025b"})
+      assert !Aoc.Day04.contains_valid_values?(%{"eyr" => "two thousand twenty six"})
+    end
+
+    test "validates 'hgt' field" do
+      assert Aoc.Day04.contains_valid_values?(%{"hgt" => "160cm"})
+      assert Aoc.Day04.contains_valid_values?(%{"hgt" => "150cm"})
+      assert Aoc.Day04.contains_valid_values?(%{"hgt" => "193cm"})
+
+      assert Aoc.Day04.contains_valid_values?(%{"hgt" => "65in"})
+      assert Aoc.Day04.contains_valid_values?(%{"hgt" => "59in"})
+      assert Aoc.Day04.contains_valid_values?(%{"hgt" => "76in"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"hgt" => "149cm"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hgt" => "194cm"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"hgt" => "58in"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hgt" => "77in"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"hgt" => "70 inches"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hgt" => "seventy inches"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hgt" => "60ft"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hgt" => "150"})
+    end
+
+    test "validates 'hcl' field" do
+      assert Aoc.Day04.contains_valid_values?(%{"hcl" => "#123abc"})
+      assert Aoc.Day04.contains_valid_values?(%{"hcl" => "#000000"})
+      assert Aoc.Day04.contains_valid_values?(%{"hcl" => "#ffffff"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"hcl" => "red"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hcl" => "#fff"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hcl" => "#fffffff"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hcl" => "#bcdefg"})
+      assert !Aoc.Day04.contains_valid_values?(%{"hcl" => "abcdef"})
+    end
+
+    test "validates 'ecl' field" do
+      assert Aoc.Day04.contains_valid_values?(%{"ecl" => "amb"})
+      assert Aoc.Day04.contains_valid_values?(%{"ecl" => "blu"})
+      assert Aoc.Day04.contains_valid_values?(%{"ecl" => "brn"})
+      assert Aoc.Day04.contains_valid_values?(%{"ecl" => "gry"})
+      assert Aoc.Day04.contains_valid_values?(%{"ecl" => "grn"})
+      assert Aoc.Day04.contains_valid_values?(%{"ecl" => "hzl"})
+      assert Aoc.Day04.contains_valid_values?(%{"ecl" => "oth"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"ecl" => "red"})
+      assert !Aoc.Day04.contains_valid_values?(%{"ecl" => "foo"})
+      assert !Aoc.Day04.contains_valid_values?(%{"ecl" => "black"})
+      assert !Aoc.Day04.contains_valid_values?(%{"ecl" => "blk"})
+      assert !Aoc.Day04.contains_valid_values?(%{"ecl" => "other"})
+    end
+
+    test "validates 'pid' field" do
+      assert Aoc.Day04.contains_valid_values?(%{"pid" => "123456789"})
+      assert Aoc.Day04.contains_valid_values?(%{"pid" => "000000000"})
+
+      assert !Aoc.Day04.contains_valid_values?(%{"pid" => "abcdefghij"})
+      assert !Aoc.Day04.contains_valid_values?(%{"pid" => "abcde"})
+      assert !Aoc.Day04.contains_valid_values?(%{"pid" => "654321"})
+      assert !Aoc.Day04.contains_valid_values?(%{"pid" => "0123456789"})
     end
   end
 end
