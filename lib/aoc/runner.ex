@@ -1,8 +1,7 @@
 defmodule Aoc.Runner do
   def run(day, task) do
     with {:ok, module} <- get_module(day),
-         {:ok, task_fun} <- get_task_fun(module, day, task)
-      do
+         {:ok, task_fun} <- get_task_fun(module, day, task) do
       input_file = get_input_file(day)
 
       try do
@@ -17,7 +16,9 @@ defmodule Aoc.Runner do
 
   def get_module(day) do
     try do
-      {:ok, String.to_existing_atom("Elixir.Aoc.Day0#{day}")}
+      module = String.to_existing_atom("Elixir.Aoc.Day0#{day}")
+      apply(module, :__info__, [:functions])
+      {:ok, module}
     rescue
       _ -> {:error, "Could not find day #{day} task runner"}
     end
@@ -27,7 +28,8 @@ defmodule Aoc.Runner do
     error = {:error, "Could not find task #{task} for day #{day}"}
 
     try do
-      task_fun = String.to_existing_atom("task#{task}")
+      task_fun = String.to_atom("task#{task}")
+
       if function_exported?(module, task_fun, 1) do
         {:ok, task_fun}
       else
