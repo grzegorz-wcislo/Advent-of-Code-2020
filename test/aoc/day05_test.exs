@@ -13,6 +13,19 @@ defmodule Aoc.Day05Test do
     end
   end
 
+  describe "&task2/1" do
+    test "example 2" do
+      input = [
+        "FBFFBFFRLR",
+        "FBFFBFFRRL",
+        "FBFFBFBLLL",
+        "FBFFBFBLLR"
+      ]
+
+      assert 295 == Aoc.Day05.task2(input)
+    end
+  end
+
   describe "&seat_id/1" do
     test "example 1" do
       assert 567 == Aoc.Day05.seat_id("BFFFBBFRRR")
