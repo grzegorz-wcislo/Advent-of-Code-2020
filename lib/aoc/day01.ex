@@ -1,19 +1,14 @@
 defmodule Aoc.Day01 do
-  def task1 do
-    {:ok, [e1, e2]} = sum2_to(2020, read_elements())
+  def task1(input) do
+    elements = Enum.map(input, &String.to_integer/1)
+    {:ok, [e1, e2]} = sum2_to(2020, elements)
     e1 * e2
   end
 
-  def task2 do
-    {:ok, [e1, e2, e3]} = sum3_to(2020, read_elements())
+  def task2(input) do
+    elements = Enum.map(input, &String.to_integer/1)
+    {:ok, [e1, e2, e3]} = sum3_to(2020, elements)
     e1 * e2 * e3
-  end
-
-  def read_elements() do
-    File.stream!("day01_input")
-    |> Stream.map(&String.trim_trailing/1)
-    |> Stream.map(&String.to_integer/1)
-    |> Enum.to_list()
   end
 
   def k_combinations(elements, k) when k <= 0 or length(elements) < k do

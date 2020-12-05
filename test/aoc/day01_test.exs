@@ -1,6 +1,36 @@
 defmodule Aoc.Day01Test do
   use ExUnit.Case
 
+  describe "&task1/1" do
+    test "example" do
+      input = [
+        "1721",
+        "979",
+        "366",
+        "299",
+        "675",
+        "1456"
+      ]
+
+      assert 514_579 == Aoc.Day01.task1(input)
+    end
+  end
+
+  describe "&task2/1" do
+    test "example" do
+      input = [
+        "1721",
+        "979",
+        "366",
+        "299",
+        "675",
+        "1456"
+      ]
+
+      assert 241_861_950 == Aoc.Day01.task2(input)
+    end
+  end
+
   describe "&k_combinations/2" do
     test "[] has 0 combinations" do
       assert [] == Aoc.Day01.k_combinations([], 0)
