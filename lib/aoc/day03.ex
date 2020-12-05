@@ -1,10 +1,32 @@
 defmodule Aoc.Day03 do
   def task1(input) do
-    Enum.reduce(input, {0, 0}, fn current, {current_x, trees_hit} ->
+    count_trees(input, 3, 1)
+  end
+
+  def task2(input) do
+    count_trees(input, 1, 1) *
+      count_trees(input, 3, 1) *
+      count_trees(input, 5, 1) *
+      count_trees(input, 7, 1) *
+      count_trees(input, 1, 2)
+  end
+
+  def count_trees(input, x, y) do
+    input
+    |> keep_nth(y)
+    |> Enum.reduce({0, 0}, fn current, {current_x, trees_hit} ->
       current_length = String.length(current)
       tree_hit = String.slice(current, rem(current_x, current_length), 1) == "#"
-      {current_x + 3, trees_hit + if(tree_hit, do: 1, else: 0)}
+      {current_x + x, trees_hit + if(tree_hit, do: 1, else: 0)}
     end)
     |> elem(1)
+  end
+
+  def keep_nth(elements, n) do
+    elements
+    |> Stream.with_index()
+    |> Stream.filter(fn {elem, i} -> rem(i, n) == 0 end)
+    |> Stream.map(fn {elem, _} -> elem end)
+    |> Enum.to_list()
   end
 end
