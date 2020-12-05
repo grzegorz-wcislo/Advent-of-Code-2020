@@ -1,29 +1,17 @@
 defmodule Aoc.Runner do
   def run(day, task) do
-    case get_module(day) do
-      {:ok, module} ->
-        try do
-          case get_task_fun(task) do
-            {:ok, task_fun} ->
-              input_file = get_input_file(day)
+    with {:ok, module} <- get_module(day),
+         {:ok, task_fun} <- get_task_fun(module, day, task)
+      do
+      input_file = get_input_file(day)
 
-              try do
-                input = Aoc.Input.read_lines(input_file)
-                apply(module, task_fun, [input])
-              rescue
-                _ in File.Error -> IO.puts("Could not find input file '#{input_file}'")
-              end
-
-            _ ->
-              raise UndefinedFunctionError
-          end
-        rescue
-          _ in UndefinedFunctionError ->
-            IO.puts("Could not find task #{task} for day #{day}")
-        end
-
-      _ ->
-        IO.puts("Could not find day #{day} task runner")
+      try do
+        input = Aoc.Input.read_lines(input_file)
+        {:ok, apply(module, task_fun, [input])}
+      rescue
+        _ in File.Error -> {:error, "Could not find input file '#{input_file}'"}
+        e -> {:error, {e, __STACKTRACE__}}
+      end
     end
   end
 
@@ -31,15 +19,22 @@ defmodule Aoc.Runner do
     try do
       {:ok, String.to_existing_atom("Elixir.Aoc.Day0#{day}")}
     rescue
-      _ -> :error
+      _ -> {:error, "Could not find day #{day} task runner"}
     end
   end
 
-  def get_task_fun(task) do
+  def get_task_fun(module, day, task) do
+    error = {:error, "Could not find task #{task} for day #{day}"}
+
     try do
-      {:ok, String.to_existing_atom("task#{task}")}
+      task_fun = String.to_existing_atom("task#{task}")
+      if function_exported?(module, task_fun, 1) do
+        {:ok, task_fun}
+      else
+        error
+      end
     rescue
-      _ -> :error
+      _ -> error
     end
   end
 
