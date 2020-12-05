@@ -1,18 +1,12 @@
 defmodule Aoc.Day02 do
-  def task1() do
-    read_password_lines()
+  def task1(password_lines) do
+    password_lines
     |> count_validated_with(&is_valid1?/1)
   end
 
-  def task2() do
-    read_password_lines()
+  def task2(password_lines) do
+    password_lines
     |> count_validated_with(&is_valid2?/1)
-  end
-
-  def read_password_lines() do
-    File.stream!("day02_input")
-    |> Stream.map(&String.trim_trailing/1)
-    |> Enum.to_list()
   end
 
   def count_validated_with(password_lines, validator) do

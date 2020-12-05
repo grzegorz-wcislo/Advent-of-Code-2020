@@ -1,6 +1,30 @@
 defmodule Aoc.Day02Test do
   use ExUnit.Case
 
+  describe "&task1/1" do
+    test "example" do
+      input = [
+        "1-3 a: abcde",
+        "1-3 b: cdefg",
+        "2-9 c: ccccccccc"
+      ]
+
+      assert 2 == Aoc.Day02.task1(input)
+    end
+  end
+
+  describe "&task2/1" do
+    test "example" do
+      input = [
+        "1-3 a: abcde",
+        "1-3 b: cdefg",
+        "2-9 c: ccccccccc"
+      ]
+
+      assert 1 == Aoc.Day02.task2(input)
+    end
+  end
+
   describe "&count_validated_with/2" do
     test "given no passwords" do
       assert 0 == Aoc.Day02.count_validated_with([], fn _ -> true end)
