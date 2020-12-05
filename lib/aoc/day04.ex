@@ -38,9 +38,6 @@ defmodule Aoc.Day04 do
   end
 
   def contains_required_keys?(passport_keys, required_keys) do
-    MapSet.difference(
-      MapSet.new(required_keys),
-      MapSet.new(passport_keys)
-    ) == MapSet.new()
+    MapSet.subset?(MapSet.new(required_keys), MapSet.new(passport_keys))
   end
 end
