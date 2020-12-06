@@ -1,29 +1,35 @@
 defmodule Aoc.Day06 do
   def task1(input) do
     input
-    |> join_groups
+    |> join_groups(&MapSet.union/2)
     |> Enum.map(&MapSet.size/1)
     |> Enum.sum()
   end
 
-  def join_groups(input) do
+  def task2(input) do
+    input
+    |> join_groups(&MapSet.intersection/2)
+    |> Enum.map(&MapSet.size/1)
+    |> Enum.sum()
+  end
+
+  def join_groups(input, join_fun) do
     chunk_fun = fn element, acc ->
-      if element == "" do
-        {:cont, acc, MapSet.new()}
-      else
-        letters = String.graphemes(element)
-        {:cont, MapSet.union(acc, MapSet.new(letters))}
+      current_set = MapSet.new(String.graphemes(element))
+
+      cond do
+        element == "" and acc == nil -> {:cont, nil}
+        element == "" -> {:cont, acc, nil}
+        acc == nil -> {:cont, current_set}
+        true -> {:cont, join_fun.(acc, current_set)}
       end
     end
 
-    after_fun = fn acc ->
-      if MapSet.size(acc) == 0 do
-        {:cont, []}
-      else
-        {:cont, acc, []}
-      end
+    after_fun = fn
+      nil -> {:cont, nil}
+      acc -> {:cont, acc, nil}
     end
 
-    Enum.chunk_while(input, MapSet.new(), chunk_fun, after_fun)
+    Enum.chunk_while(input, nil, chunk_fun, after_fun)
   end
 end
