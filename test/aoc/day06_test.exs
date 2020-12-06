@@ -23,6 +23,22 @@ defmodule Aoc.Day06Test do
 
       assert 11 == Aoc.Day06.task1(input)
     end
+
+    test "trivial case" do
+      assert 0 == Aoc.Day06.task1([])
+    end
+
+    test "one group" do
+      input = ["a", "bc", "ad"]
+
+      assert 4 == Aoc.Day06.task1(input)
+    end
+
+    test "two groups" do
+      input = ["a", "bc", "ad", "", "db", "bc"]
+
+      assert 7 == Aoc.Day06.task1(input)
+    end
   end
 
   describe "&task2/1" do
@@ -47,81 +63,47 @@ defmodule Aoc.Day06Test do
 
       assert 6 == Aoc.Day06.task2(input)
     end
+
+    test "trivial case" do
+      assert 0 == Aoc.Day06.task1([])
+    end
+
+    test "one group" do
+      input = ["abc", "bcda", "cag"]
+
+      assert 2 == Aoc.Day06.task2(input)
+    end
+
+    test "two groups" do
+      input = ["abc", "bcda", "cag", "", "gad", "abc"]
+
+      assert 3 == Aoc.Day06.task2(input)
+    end
   end
 
-  def equal_groups?(left, right) do
-    length(left) == length(right) and
-      Enum.zip(left, right)
-      |> Enum.all?(fn {left, right} -> MapSet.equal?(left, right) end)
-  end
-
-  describe "&join_groups/2 using &MapSet.union/2" do
+  describe "&parse_groups/1" do
     test "given no lines" do
       input = []
 
-      assert equal_groups?([], Aoc.Day06.join_groups(input, &MapSet.union/2))
+      assert [] == Aoc.Day06.parse_groups(input)
     end
 
     test "given one line" do
       input = ["abc"]
 
-      assert equal_groups?(
-               [MapSet.new(["a", "b", "c"])],
-               Aoc.Day06.join_groups(input, &MapSet.union/2)
-             )
+      assert [["abc"]] == Aoc.Day06.parse_groups(input)
     end
 
-    test "given multiple lines in one group" do
-      input = ["ac", "dc", "g"]
+    test "given multiple lines" do
+      input = ["a", "bc", "d"]
 
-      assert equal_groups?(
-               [MapSet.new(["a", "c", "d", "g"])],
-               Aoc.Day06.join_groups(input, &MapSet.union/2)
-             )
+      assert [["a", "bc", "d"]] == Aoc.Day06.parse_groups(input)
     end
 
     test "given multiple groups" do
-      input = ["ac", "dc", "", "ab", "g"]
+      input = ["a", "bc", "d", "", "foo", "bar"]
 
-      assert equal_groups?(
-               [MapSet.new(["a", "c", "d"]), MapSet.new(["a", "b", "g"])],
-               Aoc.Day06.join_groups(input, &MapSet.union/2)
-             )
-    end
-  end
-
-  describe "&join_groups/2 using &MapSet.intersection/2" do
-    test "given no lines" do
-      input = []
-
-      assert equal_groups?([], Aoc.Day06.join_groups(input, &MapSet.intersection/2))
-    end
-
-    test "given one line" do
-      input = ["abc"]
-
-      assert equal_groups?(
-               [MapSet.new(["a", "b", "c"])],
-               Aoc.Day06.join_groups(input, &MapSet.intersection/2)
-             )
-    end
-
-    test "given multiple lines in one group" do
-      input = ["adc", "dc", "dg"]
-
-      assert equal_groups?(
-               [MapSet.new(["d"])],
-               Aoc.Day06.join_groups(input, &MapSet.intersection/2)
-             )
-    end
-
-    test "given multiple groups" do
-      input = ["ac", "dc", "", "ab", "g"]
-
-      assert equal_groups?(
-               [MapSet.new(["c"]), MapSet.new()],
-               Aoc.Day06.join_groups(input, &MapSet.intersection/2)
-             )
+      assert [["a", "bc", "d"], ["foo", "bar"]] == Aoc.Day06.parse_groups(input)
     end
   end
 end
