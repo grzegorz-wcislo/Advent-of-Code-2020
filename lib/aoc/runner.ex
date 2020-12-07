@@ -41,6 +41,6 @@ defmodule Aoc.Runner do
   end
 
   def get_input_file(day) do
-    "day0#{day}_input"
+    "inputs/day0#{day}_input"
   end
 end
