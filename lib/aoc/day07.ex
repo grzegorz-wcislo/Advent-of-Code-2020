@@ -7,6 +7,13 @@ defmodule Aoc.Day07 do
     |> MapSet.size()
   end
 
+  def task2(input) do
+    input
+    |> Enum.map(&parse_rule/1)
+    |> build_containing_map()
+    |> count_contained_bags("shiny gold")
+  end
+
   def parse_rule(rule) do
     color_name = "[[:lower:]]+ [[:lower:]]+"
     bag_count = "[[:digit:]]+"
@@ -59,6 +66,22 @@ defmodule Aoc.Day07 do
         |> Enum.reduce(MapSet.union(containing, new_bags), fn bag, containing ->
           do_get_all_containing(containing, containment_map, bag)
         end)
+    end
+  end
+
+  def build_containing_map(rules) do
+    Map.new(rules)
+  end
+
+  def count_contained_bags(containing_map, bag) do
+    case Map.get(containing_map, bag) do
+      nil ->
+        0
+
+      bags ->
+        bags
+        |> Enum.map(fn {bag, count} -> count * (1 + count_contained_bags(containing_map, bag)) end)
+        |> Enum.sum()
     end
   end
 end
