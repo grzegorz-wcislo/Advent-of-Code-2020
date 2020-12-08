@@ -153,7 +153,7 @@ defmodule Aoc.Day08Test do
       assert 0 == Day08.find_not_looping_result([{"jmp", 0}])
     end
 
-    test "given 2 instruction" do
+    test "given 2 instructions" do
       assert 2 == Day08.find_not_looping_result([{"acc", 2}, {"jmp", 0}])
     end
 

@@ -90,7 +90,7 @@ defmodule Aoc.Day08 do
 
   def find_not_looping_result(instructions) do
     nop_jmp_swapped_list(instructions)
-    |> Enum.map(&execute_program/1)
+    |> Stream.map(&execute_program/1)
     |> Enum.find_value(fn
       {:loop, _} -> false
       {:finished, result} -> result
