@@ -22,6 +22,24 @@ defmodule Aoc.Day08Test do
     end
   end
 
+  describe "&task2/1" do
+    test "example 1" do
+      input = [
+        "nop +0",
+        "acc +1",
+        "jmp +4",
+        "acc +3",
+        "jmp -3",
+        "acc -99",
+        "acc +1",
+        "jmp -4",
+        "acc +6"
+      ]
+
+      assert 8 == Day08.task2(input)
+    end
+  end
+
   describe "&parse_instruction/1" do
     test "parses instruction operation" do
       assert {"nop", _} = Day08.parse_instruction("nop +0")
@@ -74,9 +92,45 @@ defmodule Aoc.Day08Test do
     end
   end
 
+  describe "&nop_jmp_swapped_list/1" do
+    test "given a single instruction" do
+      assert [[{"nop", 3}], [{"jmp", 3}]] == Day08.nop_jmp_swapped_list([{"jmp", 3}])
+      assert [[{"jmp", 7}], [{"nop", 7}]] == Day08.nop_jmp_swapped_list([{"nop", 7}])
+      assert [[{"acc", 13}]] == Day08.nop_jmp_swapped_list([{"acc", 13}])
+    end
+
+    test "given single nop and jmp and one acc instruction" do
+      assert [[{"nop", 3}, {"acc", 2}], [{"jmp", 3}, {"acc", 2}]] ==
+               Day08.nop_jmp_swapped_list([{"jmp", 3}, {"acc", 2}])
+
+      assert [[{"jmp", 7}, {"acc", 2}], [{"nop", 7}, {"acc", 2}]] ==
+               Day08.nop_jmp_swapped_list([{"nop", 7}, {"acc", 2}])
+    end
+
+    test "given multiple nop and jmp instructions" do
+      assert [
+               [{"nop", 3}, {"acc", 2}, {"jmp", 5}],
+               [{"jmp", 3}, {"acc", 2}, {"nop", 5}],
+               [{"jmp", 3}, {"acc", 2}, {"jmp", 5}]
+             ] == Day08.nop_jmp_swapped_list([{"jmp", 3}, {"acc", 2}, {"jmp", 5}])
+
+      assert [
+               [{"jmp", 7}, {"acc", 2}, {"jmp", 8}],
+               [{"nop", 7}, {"acc", 2}, {"nop", 8}],
+               [{"nop", 7}, {"acc", 2}, {"jmp", 8}]
+             ] == Day08.nop_jmp_swapped_list([{"nop", 7}, {"acc", 2}, {"jmp", 8}])
+    end
+  end
+
   describe "&execute_program/1" do
-    test "given a very simple program" do
-      assert 0 == Day08.execute_program([{"nop", 0}, {"jmp", -1}])
+    test "given a simple finishable program" do
+      instructions = [{"acc", 3}, {"jmp", 2}, {"acc", 2}, {"acc", 6}]
+
+      assert {:finished, 9} == Day08.execute_program(instructions)
+    end
+
+    test "given a simple loop program" do
+      assert {:loop, 0} == Day08.execute_program([{"nop", 0}, {"jmp", -1}])
     end
 
     test "given a more complex simple program" do
@@ -90,7 +144,29 @@ defmodule Aoc.Day08Test do
         {"jmp", -2}
       ]
 
-      assert 7 == Day08.execute_program(instructions)
+      assert {:loop, 7} == Day08.execute_program(instructions)
+    end
+  end
+
+  describe "&find_not_looping_result/1" do
+    test "given 1 instruction" do
+      assert 0 == Day08.find_not_looping_result([{"jmp", 0}])
+    end
+
+    test "given 2 instruction" do
+      assert 2 == Day08.find_not_looping_result([{"acc", 2}, {"jmp", 0}])
+    end
+
+    test "given a more complex program" do
+      instructions = [
+        {"nop", 2},
+        {"jmp", 2},
+        {"acc", 1},
+        {"acc", 2},
+        {"jmp", -1}
+      ]
+
+      assert 2 == Day08.find_not_looping_result(instructions)
     end
   end
 end
