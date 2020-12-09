@@ -5,6 +5,12 @@ defmodule Aoc.Day09 do
     |> find_first_unsummable(25)
   end
 
+  def task2(input) do
+    input
+    |> Stream.map(&String.to_integer/1)
+    |> find_encryption_weakness(25)
+  end
+
   def find_first_unsummable(numbers, preamble) do
     numbers
     |> Stream.chunk_every(preamble + 1, 1, :discard)
@@ -17,6 +23,12 @@ defmodule Aoc.Day09 do
         sum
       end
     end)
+  end
+
+  def find_encryption_weakness(numbers, preamble) do
+    sum = find_first_unsummable(numbers, preamble)
+    set = find_contigous_sum(numbers, sum)
+    Enum.min(set) + Enum.max(set)
   end
 
   def sum_to?(numbers, sum) do
@@ -33,6 +45,20 @@ defmodule Aoc.Day09 do
       current_sum == sum -> true
       current_sum > sum -> do_sum_to?(numbers, sum, i, j - 1)
       current_sum < sum -> do_sum_to?(numbers, sum, i + 1, j)
+    end
+  end
+
+  def find_contigous_sum(numbers, sum) do
+    do_find_contigous_sum(numbers, sum, 0, 0)
+  end
+
+  defp do_find_contigous_sum(numbers, sum, i, j) do
+    current_sum = numbers |> Enum.slice(i..j) |> Enum.sum()
+
+    cond do
+      current_sum == sum -> Enum.slice(numbers, i..j)
+      current_sum > sum -> do_find_contigous_sum(numbers, sum, i + 1, j)
+      current_sum < sum -> do_find_contigous_sum(numbers, sum, i, j + 1)
     end
   end
 end
