@@ -16,7 +16,7 @@ defmodule Aoc.Runner do
 
   def get_module(day) do
     try do
-      module = String.to_existing_atom("Elixir.Aoc.Day0#{day}")
+      module = String.to_existing_atom("Elixir.Aoc.Day#{to_2digit_string(day)}")
       apply(module, :__info__, [:functions])
       {:ok, module}
     rescue
@@ -41,6 +41,10 @@ defmodule Aoc.Runner do
   end
 
   def get_input_file(day) do
-    "inputs/day0#{day}_input"
+    "inputs/day#{to_2digit_string(day)}_input"
+  end
+
+  def to_2digit_string(num) do
+    String.pad_leading(num, 2, "0")
   end
 end
