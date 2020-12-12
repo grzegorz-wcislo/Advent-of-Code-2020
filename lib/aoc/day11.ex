@@ -54,8 +54,8 @@ defmodule Aoc.Day11 do
   end
 
   def pad_seats(seats) do
-    rows = Enum.map(seats, fn row -> ["."] ++ row ++ ["."] end)
-    padding_row = rows |> hd |> Enum.map(fn _ -> "." end)
+    rows = Enum.map(seats, fn row -> ["L"] ++ row ++ ["L"] end)
+    padding_row = rows |> hd |> Enum.map(fn _ -> "L" end)
 
     [padding_row] ++ rows ++ [padding_row]
   end

@@ -49,9 +49,9 @@ defmodule Aoc.Day11Test do
       input = [["L"]]
 
       expected = [
-        [".", ".", "."],
-        [".", "L", "."],
-        [".", ".", "."]
+        ["L", "L", "L"],
+        ["L", "L", "L"],
+        ["L", "L", "L"]
       ]
 
       assert expected == Day11.pad_seats(input)
@@ -64,10 +64,10 @@ defmodule Aoc.Day11Test do
       ]
 
       expected = [
-        [".", ".", ".", ".", "."],
-        [".", "L", ".", "#", "."],
-        [".", ".", "#", "L", "."],
-        [".", ".", ".", ".", "."]
+        ["L", "L", "L", "L", "L"],
+        ["L", "L", ".", "#", "L"],
+        ["L", ".", "#", "L", "L"],
+        ["L", "L", "L", "L", "L"]
       ]
 
       assert expected == Day11.pad_seats(input)
