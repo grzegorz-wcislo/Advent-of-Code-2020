@@ -54,19 +54,11 @@ defmodule Aoc.Day11 do
   defp next_element({".", _}), do: "."
 
   defp next_element({"L", neighbours}) do
-    if Enum.any?(neighbours, fn neighbour -> neighbour == "#" end) do
-      "L"
-    else
-      "#"
-    end
+    if Enum.any?(neighbours, &(&1 == "#")), do: "L", else: "#"
   end
 
   defp next_element({"#", neighbours}) do
-    if Enum.count(neighbours, fn neighbour -> neighbour == "#" end) >= 4 do
-      "L"
-    else
-      "#"
-    end
+    if Enum.count(neighbours, &(&1 == "#")) >= 4, do: "L", else: "#"
   end
 
   def pad_seats(seats) do
@@ -97,18 +89,10 @@ defmodule Aoc.Day11 do
   defp next_element2({".", _}), do: "."
 
   defp next_element2({"L", neighbours}) do
-    if Enum.any?(neighbours, fn neighbour -> neighbour == "#" end) do
-      "L"
-    else
-      "#"
-    end
+    if Enum.any?(neighbours, &(&1 == "#")), do: "L", else: "#"
   end
 
   defp next_element2({"#", neighbours}) do
-    if Enum.count(neighbours, fn neighbour -> neighbour == "#" end) >= 5 do
-      "L"
-    else
-      "#"
-    end
+    if Enum.count(neighbours, &(&1 == "#")) >= 5, do: "L", else: "#"
   end
 end
