@@ -4,25 +4,29 @@ defmodule Aoc.Day14Test do
   alias Aoc.Day14
 
   describe "&task1/1" do
-    input = [
-      "mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X",
-      "mem[8] = 14",
-      "mem[7] = 101",
-      "mem[8] = 0"
-    ]
+    test "example 1" do
+      input = [
+        "mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X",
+        "mem[8] = 14",
+        "mem[7] = 101",
+        "mem[8] = 0"
+      ]
 
-    assert 165 == Day14.task1(input)
+      assert 165 == Day14.task1(input)
+    end
   end
 
   describe "&task2/1" do
-    input = [
-      "mask = 000000000000000000000000000000X1001X",
-      "mem[42] = 100",
-      "mask = 00000000000000000000000000000000X0XX",
-      "mem[26] = 1"
-    ]
+    test "example 1" do
+      input = [
+        "mask = 000000000000000000000000000000X1001X",
+        "mem[42] = 100",
+        "mask = 00000000000000000000000000000000X0XX",
+        "mem[26] = 1"
+      ]
 
-    assert 208 == Day14.task2(input)
+      assert 208 == Day14.task2(input)
+    end
   end
 
   describe "&parse_line/1" do
