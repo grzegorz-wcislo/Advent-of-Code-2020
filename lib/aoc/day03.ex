@@ -13,20 +13,12 @@ defmodule Aoc.Day03 do
 
   def count_trees(input, x, y) do
     input
-    |> keep_nth(y)
+    |> Enum.take_every(y)
     |> Enum.reduce({0, 0}, fn current, {current_x, trees_hit} ->
       current_length = String.length(current)
       tree_hit = String.slice(current, rem(current_x, current_length), 1) == "#"
       {current_x + x, trees_hit + if(tree_hit, do: 1, else: 0)}
     end)
     |> elem(1)
-  end
-
-  def keep_nth(elements, n) do
-    elements
-    |> Stream.with_index()
-    |> Stream.filter(fn {elem, i} -> rem(i, n) == 0 end)
-    |> Stream.map(fn {elem, _} -> elem end)
-    |> Enum.to_list()
   end
 end

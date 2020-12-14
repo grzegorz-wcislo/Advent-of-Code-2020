@@ -64,24 +64,4 @@ defmodule Aoc.Day03Test do
       assert 1 == Aoc.Day03.count_trees(input, 2, 2)
     end
   end
-
-  describe "&keep_nth/2" do
-    test "returns all elements given n = 1" do
-      input = [1, 2, 3, 4, 5]
-
-      assert [1, 2, 3, 4, 5] == Aoc.Day03.keep_nth(input, 1)
-    end
-
-    test "returns every second element given n = 2" do
-      input = [1, 2, 3, 4, 5]
-
-      assert [1, 3, 5] == Aoc.Day03.keep_nth(input, 2)
-    end
-
-    test "returns every third element given n = 3" do
-      input = [1, 2, 3, 4, 5]
-
-      assert [1, 4] == Aoc.Day03.keep_nth(input, 3)
-    end
-  end
 end
