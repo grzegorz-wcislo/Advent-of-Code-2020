@@ -1,4 +1,4 @@
-defmodule Aoc.Day19 do
+defmodule Aoc.Day18 do
   def task1(input) do
     input
     |> Enum.map(&evaluate/1)
