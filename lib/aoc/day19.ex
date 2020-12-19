@@ -5,10 +5,25 @@ defmodule Aoc.Day19 do
     |> Enum.sum()
   end
 
+  def task2(input) do
+    input
+    |> Enum.map(&evaluate_advanced/1)
+    |> Enum.sum()
+  end
+
   def evaluate(expression) do
     expression
     |> tokenize()
     |> Enum.reduce([[]], &evaluate_reducer/2)
+    |> hd()
+    |> hd()
+  end
+
+  def evaluate_advanced(expression) do
+    expression
+    |> tokenize()
+    |> Enum.chunk_every(2, 1)
+    |> Enum.reduce([[]], &advanced_reducer/2)
     |> hd()
     |> hd()
   end
@@ -37,4 +52,36 @@ defmodule Aoc.Day19 do
   defp evaluate_reducer(")", [[token] | state]), do: evaluate_reducer(token, state)
 
   defp evaluate_reducer(token, [top | state]), do: [[token | top] | state]
+
+  defp advanced_reducer([token, "+"], [["*" | rest] | state]) when is_integer(token) do
+    [[token, "*" | rest] | state]
+  end
+
+  defp advanced_reducer([token | _next], [["*", other | rest] | state]) when is_integer(token) do
+    [[token * other | rest] | state]
+  end
+
+  defp advanced_reducer([token, "+"], [["+", other | rest] | state]) when is_integer(token) do
+    [[token + other | rest] | state]
+  end
+
+  defp advanced_reducer([token | _next], [["+", other, "*", rest] | state])
+       when is_integer(token) do
+    [[(token + other) * rest] | state]
+  end
+
+  defp advanced_reducer([token | _next], [["+", other | rest] | state]) when is_integer(token) do
+    [[token + other | rest] | state]
+  end
+
+  defp advanced_reducer(["*" | _next], [[a, "*", b]]) do
+    [["*", a * b]]
+  end
+
+  defp advanced_reducer(["(" | _next], state), do: [[] | state]
+
+  defp advanced_reducer([")" | next], [[token] | state]),
+    do: advanced_reducer([token | next], state)
+
+  defp advanced_reducer([token | _next], [top | state]), do: [[token | top] | state]
 end
