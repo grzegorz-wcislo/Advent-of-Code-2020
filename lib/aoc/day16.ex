@@ -1,4 +1,6 @@
 defmodule Aoc.Day16 do
+  @moduledoc false
+
   def task1(input) do
     {rules, _, tickets} = parse_input(input)
 

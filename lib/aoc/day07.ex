@@ -1,4 +1,6 @@
 defmodule Aoc.Day07 do
+  @moduledoc false
+
   def task1(input) do
     input
     |> Enum.map(&parse_rule/1)

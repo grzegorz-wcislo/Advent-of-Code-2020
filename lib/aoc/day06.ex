@@ -1,4 +1,6 @@
 defmodule Aoc.Day06 do
+  @moduledoc false
+
   def task1(input) do
     task_with_join_fun(input, &MapSet.union/2)
   end

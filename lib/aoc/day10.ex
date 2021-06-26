@@ -1,4 +1,6 @@
 defmodule Aoc.Day10 do
+  @moduledoc false
+
   def task1(input) do
     numbers = Enum.map(input, &String.to_integer/1)
 

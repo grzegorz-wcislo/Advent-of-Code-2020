@@ -1,4 +1,6 @@
 defmodule Aoc.Day05 do
+  @moduledoc false
+
   def task1(input) do
     input
     |> Enum.map(&seat_id/1)

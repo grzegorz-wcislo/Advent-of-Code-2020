@@ -1,4 +1,6 @@
 defmodule Aoc.Day04 do
+  @moduledoc false
+
   @required_keys ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
 
   def task1(input) do
@@ -20,17 +22,15 @@ defmodule Aoc.Day04 do
 
   def join_nonempty(input) do
     Enum.reduce(input, [""], fn line, acc ->
-      case line do
-        "" ->
+      case {line, acc} do
+        {"", _} ->
           ["" | acc]
 
-        _ ->
-          [head | tail] = acc
+        {_, ["" | tail]} ->
+          [line | tail]
 
-          case head do
-            "" -> [line | tail]
-            _ -> [head <> " " <> line | tail]
-          end
+        {_, [head | tail]} ->
+          [head <> " " <> line | tail]
       end
     end)
     |> Enum.reverse()
@@ -75,11 +75,7 @@ defmodule Aoc.Day04 do
           in_range?(value, 2020, 2030)
 
         "hgt" ->
-          case Integer.parse(value) do
-            {height, "cm"} -> height >= 150 and height <= 193
-            {height, "in"} -> height >= 59 and height <= 76
-            _ -> false
-          end
+          valid_height?(value)
 
         "hcl" ->
           String.match?(value, ~r/^#[0-9a-f]{6}$/)
@@ -99,6 +95,14 @@ defmodule Aoc.Day04 do
   defp in_range?(value, min, max) do
     case Integer.parse(value) do
       {year, ""} -> year >= min and year <= max
+      _ -> false
+    end
+  end
+
+  defp valid_height?(value) do
+    case Integer.parse(value) do
+      {height, "cm"} -> height >= 150 and height <= 193
+      {height, "in"} -> height >= 59 and height <= 76
       _ -> false
     end
   end

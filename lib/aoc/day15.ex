@@ -1,4 +1,6 @@
 defmodule Aoc.Day15 do
+  @moduledoc false
+
   def task1(input) do
     task_nth(input, 2020)
   end

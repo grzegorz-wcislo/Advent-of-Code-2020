@@ -1,4 +1,6 @@
 defmodule Aoc.Day18 do
+  @moduledoc false
+
   def task1(input) do
     input
     |> Enum.map(&evaluate/1)

@@ -1,4 +1,6 @@
 defmodule Aoc.Day01 do
+  @moduledoc false
+
   def task1(input) do
     elements = Enum.map(input, &String.to_integer/1)
     {:ok, [e1, e2]} = sum2_to(2020, elements)

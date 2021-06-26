@@ -1,4 +1,6 @@
 defmodule Aoc.Day09 do
+  @moduledoc false
+
   def task1(input) do
     input
     |> Stream.map(&String.to_integer/1)

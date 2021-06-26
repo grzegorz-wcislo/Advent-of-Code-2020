@@ -1,4 +1,6 @@
 defmodule Aoc.Day14 do
+  @moduledoc false
+
   use Bitwise
 
   def task1(input) do

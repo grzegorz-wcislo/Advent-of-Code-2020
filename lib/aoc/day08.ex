@@ -1,5 +1,9 @@
 defmodule Aoc.Day08 do
+  @moduledoc false
+
   defmodule State do
+    @moduledoc false
+
     defstruct acc: 0, ip: 0, instructions: [], history: []
   end
 

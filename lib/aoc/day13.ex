@@ -1,4 +1,6 @@
 defmodule Aoc.Day13 do
+  @moduledoc false
+
   def task1(input) do
     {timestamp, busses} = parse_input(input)
 

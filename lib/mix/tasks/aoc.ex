@@ -1,4 +1,8 @@
 defmodule Mix.Tasks.Aoc do
+  @moduledoc """
+  Provides a mix task that runs the specified Advent of Code task with provided input data.
+  """
+
   use Mix.Task
 
   def run(args) do

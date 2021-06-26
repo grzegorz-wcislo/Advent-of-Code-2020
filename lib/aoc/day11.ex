@@ -1,4 +1,6 @@
 defmodule Aoc.Day11 do
+  @moduledoc false
+
   def task1(input) do
     input
     |> Enum.map(&String.graphemes/1)

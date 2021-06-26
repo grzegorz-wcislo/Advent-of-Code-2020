@@ -1,4 +1,6 @@
 defmodule Aoc.Day12 do
+  @moduledoc false
+
   def task1(input) do
     {x, y, _} =
       input

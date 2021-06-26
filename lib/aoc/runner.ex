@@ -1,4 +1,8 @@
 defmodule Aoc.Runner do
+  @moduledoc """
+  A runner for Advent of Code tasks.
+  """
+
   def run(day, task) do
     with {:ok, module} <- get_module(day),
          {:ok, task_fun} <- get_task_fun(module, day, task) do

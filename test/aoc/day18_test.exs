@@ -12,7 +12,7 @@ defmodule Aoc.Day18Test do
         "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"
       ]
 
-      assert 26335 == Day18.task1(input)
+      assert 26_335 == Day18.task1(input)
     end
   end
 
@@ -85,7 +85,7 @@ defmodule Aoc.Day18Test do
     test "example 5" do
       expression = "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"
 
-      assert 23340 == Day18.evaluate_advanced(expression)
+      assert 23_340 == Day18.evaluate_advanced(expression)
     end
   end
 end

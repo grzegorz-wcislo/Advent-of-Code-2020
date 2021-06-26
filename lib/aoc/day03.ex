@@ -1,4 +1,6 @@
 defmodule Aoc.Day03 do
+  @moduledoc false
+
   def task1(input) do
     count_trees(input, 3, 1)
   end
