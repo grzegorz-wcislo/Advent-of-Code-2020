@@ -75,11 +75,11 @@ defmodule Aoc.Day02Test do
     end
 
     test "too few chars" do
-      assert !Aoc.Day02.is_valid1?({{1, 3, "a"}, "cdefg"})
+      refute Aoc.Day02.is_valid1?({{1, 3, "a"}, "cdefg"})
     end
 
     test "too many chars" do
-      assert !Aoc.Day02.is_valid1?({{1, 3, "a"}, "aabbaa"})
+      refute Aoc.Day02.is_valid1?({{1, 3, "a"}, "aabbaa"})
     end
   end
 
@@ -93,11 +93,11 @@ defmodule Aoc.Day02Test do
     end
 
     test "both positions match" do
-      assert !Aoc.Day02.is_valid2?({{1, 3, "c"}, "cbcde"})
+      refute Aoc.Day02.is_valid2?({{1, 3, "c"}, "cbcde"})
     end
 
     test "neither positions match" do
-      assert !Aoc.Day02.is_valid2?({{2, 4, "c"}, "cbcde"})
+      refute Aoc.Day02.is_valid2?({{2, 4, "c"}, "cbcde"})
     end
   end
 end

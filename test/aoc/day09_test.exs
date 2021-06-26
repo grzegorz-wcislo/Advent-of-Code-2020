@@ -89,11 +89,11 @@ defmodule Aoc.Day09Test do
 
   describe "&sum_to?/2" do
     test "given no numbers" do
-      assert !Day09.sum_to?([], 3)
+      refute Day09.sum_to?([], 3)
     end
 
     test "given 1 number" do
-      assert !Day09.sum_to?([3], 3)
+      refute Day09.sum_to?([3], 3)
     end
 
     test "given 2 numbers that sum" do
@@ -101,7 +101,7 @@ defmodule Aoc.Day09Test do
     end
 
     test "given 2 numbers that don't sum" do
-      assert !Day09.sum_to?([2, 3], 4)
+      refute Day09.sum_to?([2, 3], 4)
     end
 
     test "given 3 numbers that can sum" do
@@ -111,10 +111,10 @@ defmodule Aoc.Day09Test do
     end
 
     test "given 3 numbers that can't sum" do
-      assert !Day09.sum_to?([2, 3, 4], 2)
-      assert !Day09.sum_to?([2, 3, 4], 3)
-      assert !Day09.sum_to?([2, 3, 4], 8)
-      assert !Day09.sum_to?([2, 3, 4], 10)
+      refute Day09.sum_to?([2, 3, 4], 2)
+      refute Day09.sum_to?([2, 3, 4], 3)
+      refute Day09.sum_to?([2, 3, 4], 8)
+      refute Day09.sum_to?([2, 3, 4], 10)
     end
   end
 
