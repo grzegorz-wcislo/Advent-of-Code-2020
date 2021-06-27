@@ -15,7 +15,19 @@ defmodule Aoc.Day17Test do
     end
   end
 
-  describe "&parse_input/1" do
+  describe "&task2/1" do
+    test "example 1" do
+      input = [
+        ".#.",
+        "..#",
+        "###"
+      ]
+
+      assert 848 == Day17.task2(input)
+    end
+  end
+
+  describe "&parse_input_3d/1" do
     test "example 1" do
       input = [
         ".#.",
@@ -32,7 +44,7 @@ defmodule Aoc.Day17Test do
           {2, 2, 0}
         ])
 
-      assert result == Day17.parse_input(input)
+      assert result == Day17.parse_input_3d(input)
     end
   end
 
